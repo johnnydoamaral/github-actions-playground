@@ -13,7 +13,7 @@ jobs:
           version: "v0.1.3"
           parsed-version: "0.1.3"
         run: |
-          echo "RELEASE-VERSION=${{ env.version }} >> "$GITHUB_OUTPUT"
+          echo "RELEASE-VERSION=${{ env.version }}" >> "$GITHUB_OUTPUT"
           echo "JAR-VERSION=${{ env.parsed-version }}" >> "$GITHUB_OUTPUT"
   print-output:
     runs-on: "ubuntu-latest"
