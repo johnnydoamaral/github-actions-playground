@@ -2,9 +2,24 @@ on:
   push:
 
 jobs:
-  print-stuff:
+  prepare-output:
     runs-on: "ubuntu-latest"
+    outputs:
+      release-version: ${{ steps.create-output.outputs.release-version }}
+      jar-version: ${{ steps.create-output.outputs.jar-version }}
     steps:
-      - name: print
+      - id: create-output
+        env:
+          version: "v0.1.3"
+          parsed-version: "0.1.3"
         run: |
-          echo "hello world"
+          echo "RELEASE-VERSION=${{ env.version }} >> "$GITHUB_OUTPUT"
+          echo "JAR-VERSION=${{ env.parsed-version }}" >> "$GITHUB_OUTPUT"
+  print-output:
+    runs-on: "ubuntu-latest"
+    needs: prepare-output
+    steps:
+      - name: print-output
+        run: |
+          echo "Release version is: ${{needs.prepare-output.outputs.release-version}}"
+          echo "Release version is: ${{needs.prepare-output.outputs.jar-version}}"
